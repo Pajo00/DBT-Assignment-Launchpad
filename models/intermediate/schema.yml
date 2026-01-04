@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: int_customer_order_metrics
+    description: "Customer-level metrics: revenue, order count, AOV, first & last order."
+    columns:
+      - name: customer_id
+        description: "Unique ID for each customer"
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: full_name
+        description: "Full name of the customer"
+      - name: order_count
+        description: "Total number of orders by the customer"
+        tests:
+          - not_null
+          
+      - name: total_revenue
+        description: "Sum of total_amount from all orders"
+        tests:
+          - not_null
+          
+      - name: aov
+        description: "Average order value (total_revenue / order_count)"
+      - name: first_order_date
+        description: "Date of the customer's first order"
+      - name: last_order_date
+        description: "Date of the customer's most recent order"
+
+  - name: int_monthly_revenue
+    description: "Monthly revenue for 2023"
+    columns:
+      - name: year
+        description: "Year of the orders"
+      - name: month
+        description: "Month of the orders"
+      - name: monthly_revenue
+        description: "Sum of total_amount for that month"
+        tests:
+          - not_null
+          
+
+  - name: int_customer_loyalty
+    description: "Total loyalty points per customer"
+    columns:
+      - name: customer_id
+        description: "Unique ID for each customer"
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: full_name
+        description: "Full name of the customer"
+      - name: total_points
+        description: "Total loyalty points earned"
+        tests:
+          - not_null
+          
